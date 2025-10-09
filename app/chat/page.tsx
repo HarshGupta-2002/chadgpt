@@ -3,10 +3,11 @@
 import { useChat } from '@ai-sdk/react';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Sidebar, ChatMessage, ChatInput, EmptyState } from '@/components/chat';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Menu } from 'lucide-react';
 
 export default function Chat() {
   const [input, setInput] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { messages, sendMessage, status } = useChat();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -26,6 +27,18 @@ export default function Chat() {
     }
   }, [messages, isLoading]);
 
+  // Close sidebar on mobile by default
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsSidebarOpen(false);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
@@ -41,40 +54,57 @@ export default function Chat() {
     await sendMessage({ text: suggestion });
   }, [isLoading, sendMessage]);
 
+  const toggleSidebar = useCallback(() => {
+    setIsSidebarOpen(prev => !prev);
+  }, []);
+
   return (
     <div className="flex h-screen bg-zinc-950 overflow-hidden">
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} />
+
+      {/* Mobile Menu Button - Only shows when sidebar is closed */}
+      {!isSidebarOpen && (
+        <button
+          onClick={toggleSidebar}
+          className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-zinc-900 border border-zinc-800/50 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors md:hidden"
+          aria-label="Open sidebar"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+      )}
 
       {/* Main Chat Area */}
       <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
         {/* Messages Container */}
         <div 
           ref={scrollContainerRef}
-          className="flex-1 overflow-y-auto overflow-x-hidden"
+          className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar"
         >
           {messages.length === 0 ? (
             <EmptyState onSuggestionClick={handleSuggestionClick} />
           ) : (
-            <div>
+            <div className="pb-4">
               {messages.map((message) => (
                 <ChatMessage key={message.id} message={message} />
               ))}
               
               {/* Loading Indicator */}
               {isLoading && (
-                <div className="w-full bg-zinc-900/30">
-                  <div className="max-w-[48rem] mx-auto px-4 py-8 md:px-8">
-                    <div className="flex gap-6 md:gap-8">
+                <div className="w-full px-4 py-4 md:px-8">
+                  <div className="max-w-[48rem] mx-auto">
+                    <div className="flex gap-3">
                       <div className="flex-shrink-0 mt-1">
-                        <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold bg-emerald-600 text-white shadow-sm">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold bg-emerald-600 text-white shadow-sm">
                           C
                         </div>
                       </div>
-                      <div className="flex-1 pt-0.5">
-                        <div className="flex items-center gap-2 text-zinc-400">
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                          <span className="text-[15px]">Thinking...</span>
+                      <div className="flex flex-col max-w-[75%] md:max-w-[70%]">
+                        <div className="px-4 py-3 rounded-2xl rounded-tl-sm bg-zinc-800 shadow-sm">
+                          <div className="flex items-center gap-2 text-zinc-400">
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span className="text-[15px]">Thinking...</span>
+                          </div>
                         </div>
                       </div>
                     </div>
