@@ -1,16 +1,16 @@
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { streamText } from 'ai';
+import { streamText, type CoreMessage } from 'ai';
 
 const openrouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY!
 });
 
-export async function openRouter(messages: any[]) {
-  const result = await streamText({
+export async function openRouter(messages: CoreMessage[]) {
+  const result = streamText({
     model: openrouter.chat('openai/gpt-5-chat'),
     messages,
     maxOutputTokens: 100
   });
 
-  return result.textStream
+  return result;
 }
