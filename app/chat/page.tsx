@@ -59,7 +59,7 @@ export default function Chat() {
   }, []);
 
   return (
-    <div className="flex h-screen bg-zinc-950 overflow-hidden">
+    <div className="flex h-screen bg-white dark:bg-zinc-950 overflow-hidden">
       {/* Sidebar */}
       <Sidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} />
 
@@ -67,7 +67,7 @@ export default function Chat() {
       {!isSidebarOpen && (
         <button
           onClick={toggleSidebar}
-          className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-zinc-900 border border-zinc-800/50 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors md:hidden"
+          className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800/50 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors md:hidden"
           aria-label="Open sidebar"
         >
           <Menu className="w-5 h-5" />
