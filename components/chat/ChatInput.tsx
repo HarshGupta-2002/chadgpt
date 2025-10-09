@@ -1,4 +1,5 @@
 import { Send } from 'lucide-react';
+import { useRef, useEffect } from 'react';
 
 interface ChatInputProps {
   input: string;
@@ -13,12 +14,25 @@ export function ChatInput({
   onInputChange,
   onSubmit,
 }: ChatInputProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Auto-resize textarea
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = '24px';
+      const scrollHeight = textarea.scrollHeight;
+      textarea.style.height = Math.min(scrollHeight, 200) + 'px';
+    }
+  }, [input]);
+
   return (
-    <div className="border-t border-zinc-800 bg-zinc-950/80 backdrop-blur-sm">
-      <div className="max-w-3xl mx-auto px-4 py-4 md:px-6">
+    <div className="w-full bg-gradient-to-b from-zinc-950/0 via-zinc-950/50 to-zinc-950">
+      <div className="max-w-[48rem] mx-auto px-4 pb-6 pt-4 md:px-8">
         <form onSubmit={onSubmit} className="relative">
-          <div className="relative flex items-center">
+          <div className="relative flex items-end rounded-3xl bg-zinc-900 shadow-lg border border-zinc-700/50 hover:border-zinc-600/50 focus-within:border-zinc-600 transition-colors">
             <textarea
+              ref={textareaRef}
               value={input}
               onChange={(e) => onInputChange(e.target.value)}
               onKeyDown={(e) => {
@@ -30,22 +44,19 @@ export function ChatInput({
               placeholder="Message ChadGPT..."
               disabled={isLoading}
               rows={1}
-              className="w-full resize-none rounded-2xl bg-zinc-900 border border-zinc-700 px-4 py-3 pr-12 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed transition-all max-h-32 overflow-y-auto"
-              style={{
-                minHeight: '48px',
-                maxHeight: '128px',
-              }}
+              className="w-full resize-none bg-transparent px-5 py-4 pr-14 text-[15px] text-zinc-100 placeholder-zinc-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed max-h-[200px] overflow-y-auto"
+              style={{ minHeight: '24px' }}
             />
             <button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="absolute right-2 bottom-2 p-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-emerald-600 transition-all active:scale-95"
+              className="absolute right-3 bottom-3 p-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-500 disabled:bg-zinc-700 disabled:text-zinc-500 disabled:cursor-not-allowed transition-colors"
               aria-label="Send message"
             >
               <Send className="w-4 h-4" />
             </button>
           </div>
-          <p className="text-xs text-zinc-600 mt-2 text-center">
+          <p className="text-xs text-zinc-500 mt-3 text-center px-2">
             ChadGPT can make mistakes. Consider checking important information.
           </p>
         </form>

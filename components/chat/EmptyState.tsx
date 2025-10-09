@@ -1,72 +1,71 @@
-import { Sparkles, Lightbulb, Code, MessageCircle } from 'lucide-react';
+import { Lightbulb, Code, MessageCircle, Sparkles } from 'lucide-react';
+import { memo } from 'react';
 
 interface EmptyStateProps {
   onSuggestionClick: (suggestion: string) => void;
 }
 
-export function EmptyState({ onSuggestionClick }: EmptyStateProps) {
-  const suggestions = [
-    {
-      icon: Lightbulb,
-      text: 'Explain quantum computing',
-      prompt: 'Explain quantum computing in simple terms',
-    },
-    {
-      icon: Code,
-      text: 'Write a Python function',
-      prompt: 'Write a Python function to reverse a string',
-    },
-    {
-      icon: MessageCircle,
-      text: 'Help me brainstorm',
-      prompt: 'Help me brainstorm ideas for a tech startup',
-    },
-    {
-      icon: Sparkles,
-      text: 'Create a story',
-      prompt: 'Write a short creative story about AI',
-    },
-  ];
+const suggestions = [
+  {
+    icon: Lightbulb,
+    text: 'Explain quantum computing',
+    prompt: 'Explain quantum computing in simple terms',
+  },
+  {
+    icon: Code,
+    text: 'Write a Python function',
+    prompt: 'Write a Python function to reverse a string',
+  },
+  {
+    icon: MessageCircle,
+    text: 'Help me brainstorm',
+    prompt: 'Help me brainstorm ideas for a tech startup',
+  },
+  {
+    icon: Sparkles,
+    text: 'Create a story',
+    prompt: 'Write a short creative story about AI',
+  },
+] as const;
 
+export const EmptyState = memo(function EmptyState({ onSuggestionClick }: EmptyStateProps) {
   return (
-    <div className="flex-1 flex items-center justify-center px-4 py-12">
-      <div className="max-w-3xl w-full space-y-8">
+    <div className="flex-1 flex items-center justify-center px-4 py-8">
+      <div className="max-w-3xl w-full space-y-12">
         {/* Header */}
-        <div className="text-center space-y-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white">
-            <Sparkles className="w-8 h-8" />
+        <div className="text-center space-y-6">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-600 text-white shadow-lg shadow-emerald-500/20">
+            <Sparkles className="w-7 h-7" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white">
+          <h1 className="text-4xl md:text-5xl font-semibold text-zinc-100 tracking-tight">
             How can I help you today?
           </h1>
-          <p className="text-zinc-400">
-            Choose a suggestion below or start typing your own message
-          </p>
         </div>
 
         {/* Suggestion Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {suggestions.map((suggestion, index) => (
-            <button
-              key={index}
-              onClick={() => onSuggestionClick(suggestion.prompt)}
-              className="group p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900 transition-all text-left"
-            >
-              <div className="flex items-start gap-3">
-                <div className="p-2 rounded-lg bg-zinc-800 text-emerald-400 group-hover:bg-zinc-700 transition-colors">
-                  <suggestion.icon className="w-4 h-4" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-zinc-300 group-hover:text-white transition-colors">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-2xl mx-auto">
+          {suggestions.map((suggestion, index) => {
+            const Icon = suggestion.icon;
+            return (
+              <button
+                key={index}
+                onClick={() => onSuggestionClick(suggestion.prompt)}
+                className="group p-4 rounded-2xl bg-zinc-900/40 border border-zinc-800/50 hover:bg-zinc-900/60 hover:border-zinc-700/50 transition-all text-left"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 p-2 rounded-xl bg-zinc-800/50 text-emerald-400 group-hover:bg-zinc-700/50 transition-colors">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <p className="text-sm text-zinc-300 group-hover:text-zinc-100 transition-colors font-medium">
                     {suggestion.text}
                   </p>
                 </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
   );
-}
+});
 
