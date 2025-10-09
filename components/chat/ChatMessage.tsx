@@ -36,7 +36,7 @@ export const ChatMessage = memo(function ChatMessage({ message }: ChatMessagePro
 
   // AI message: no bubble, direct on background like ChatGPT
   return (
-    <div className="w-full px-4 py-6 md:px-8 bg-zinc-900/30">
+    <div className="w-full px-4 py-6 md:px-8">
       <div className="max-w-[48rem] mx-auto">
         <div className="text-[15px] leading-7 text-zinc-100">
           {message.parts.map((part, i) => {
