@@ -91,22 +91,11 @@ export default function Chat() {
               
               {/* Loading Indicator */}
               {isLoading && (
-                <div className="w-full px-4 py-4 md:px-8">
+                <div className="w-full px-4 py-6 md:px-8 bg-zinc-900/30">
                   <div className="max-w-[48rem] mx-auto">
-                    <div className="flex gap-3">
-                      <div className="flex-shrink-0 mt-1">
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold bg-emerald-600 text-white shadow-sm">
-                          C
-                        </div>
-                      </div>
-                      <div className="flex flex-col max-w-[75%] md:max-w-[70%]">
-                        <div className="px-4 py-3 rounded-2xl rounded-tl-sm bg-zinc-800 shadow-sm">
-                          <div className="flex items-center gap-2 text-zinc-400">
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                            <span className="text-[15px]">Thinking...</span>
-                          </div>
-                        </div>
-                      </div>
+                    <div className="flex items-center gap-2 text-zinc-400">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span className="text-[15px]">Thinking...</span>
                     </div>
                   </div>
                 </div>
