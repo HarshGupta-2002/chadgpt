@@ -37,7 +37,7 @@ export const EmptyState = memo(function EmptyState({ onSuggestionClick }: EmptyS
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-600 text-white shadow-lg shadow-emerald-500/20">
             <Sparkles className="w-7 h-7" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-semibold text-zinc-100 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-semibold text-zinc-900 dark:text-zinc-100 tracking-tight">
             How can I help you today?
           </h1>
         </div>
@@ -50,13 +50,13 @@ export const EmptyState = memo(function EmptyState({ onSuggestionClick }: EmptyS
               <button
                 key={index}
                 onClick={() => onSuggestionClick(suggestion.prompt)}
-                className="group p-4 rounded-2xl bg-zinc-900/40 border border-zinc-800/50 hover:bg-zinc-900/60 hover:border-zinc-700/50 transition-all text-left"
+                className="group p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-900/60 hover:border-zinc-300 dark:hover:border-zinc-700/50 transition-all text-left shadow-sm"
               >
                 <div className="flex items-center gap-3">
-                  <div className="flex-shrink-0 p-2 rounded-xl bg-zinc-800/50 text-emerald-400 group-hover:bg-zinc-700/50 transition-colors">
+                  <div className="flex-shrink-0 p-2 rounded-xl bg-emerald-100 dark:bg-zinc-800/50 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-200 dark:group-hover:bg-zinc-700/50 transition-colors">
                     <Icon className="w-4 h-4" />
                   </div>
-                  <p className="text-sm text-zinc-300 group-hover:text-zinc-100 transition-colors font-medium">
+                  <p className="text-sm text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors font-medium">
                     {suggestion.text}
                   </p>
                 </div>

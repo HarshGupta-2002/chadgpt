@@ -39,7 +39,18 @@ export const ChatMessage = memo(function ChatMessage({ message }: ChatMessagePro
   return (
     <div className="w-full px-4 py-6 md:px-8">
       <div className="max-w-[48rem] mx-auto">
-        <article className="prose dark:prose-invert prose-zinc max-w-none prose-pre:bg-zinc-100 dark:prose-pre:bg-zinc-900 prose-pre:border prose-pre:border-zinc-200 dark:prose-pre:border-zinc-800 prose-code:text-zinc-900 dark:prose-code:text-zinc-100 prose-a:text-emerald-600 dark:prose-a:text-emerald-400 hover:prose-a:text-emerald-500 dark:hover:prose-a:text-emerald-300">
+        <article className="prose dark:prose-invert prose-zinc max-w-none 
+          prose-p:text-zinc-900 dark:prose-p:text-zinc-100
+          prose-headings:text-zinc-900 dark:prose-headings:text-zinc-100
+          prose-strong:text-zinc-900 dark:prose-strong:text-zinc-100
+          prose-code:text-zinc-900 dark:prose-code:text-zinc-100
+          prose-pre:bg-zinc-100 dark:prose-pre:bg-zinc-900 
+          prose-pre:border prose-pre:border-zinc-200 dark:prose-pre:border-zinc-800
+          prose-a:text-emerald-600 dark:prose-a:text-emerald-400 
+          hover:prose-a:text-emerald-700 dark:hover:prose-a:text-emerald-300
+          prose-li:text-zinc-900 dark:prose-li:text-zinc-100
+          prose-blockquote:text-zinc-700 dark:prose-blockquote:text-zinc-300
+          prose-blockquote:border-zinc-300 dark:prose-blockquote:border-zinc-700">
           {message.parts.map((part, i) => {
             if (part.type === 'text') {
               return <ReactMarkdown key={i}>{part.text}</ReactMarkdown>;
