@@ -19,7 +19,8 @@ export default function Chat() {
     if (messagesEndRef.current && scrollContainerRef.current) {
       const scrollContainer = scrollContainerRef.current;
       const isNearBottom = 
-        scrollContainer.scrollHeight - scrollContainer.scrollTop - scrollContainer.clientHeight < 100;
+        scrollContainer.scrollHeight - scrollContainer.scrollTop - 
+        scrollContainer.clientHeight < 100;
       
       if (isNearBottom || messages.length === 1) {
         messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -67,7 +68,12 @@ export default function Chat() {
       {!isSidebarOpen && (
         <button
           onClick={toggleSidebar}
-          className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800/50 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors cursor-pointer md:hidden"
+          className="fixed top-4 left-4 z-50 p-2 rounded-lg 
+            bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 
+            dark:border-zinc-800/50 text-zinc-600 dark:text-zinc-400 
+            hover:text-zinc-900 dark:hover:text-zinc-200 
+            hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors 
+            cursor-pointer md:hidden"
           aria-label="Open sidebar"
         >
           <Menu className="w-5 h-5" />
@@ -93,7 +99,8 @@ export default function Chat() {
               {isLoading && (
                 <div className="w-full px-4 py-6 md:px-8">
                   <div className="max-w-[48rem] mx-auto">
-                    <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
+                    <div className="flex items-center gap-2 text-zinc-600 
+                      dark:text-zinc-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span className="text-[15px]">Thinking...</span>
                     </div>
