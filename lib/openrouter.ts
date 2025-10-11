@@ -7,9 +7,9 @@ const openrouter = createOpenRouter({
 
 export async function openRouter(messages: CoreMessage[]) {
   const result = streamText({
-    model: openrouter.chat('openai/gpt-5-chat'),
+    model: openrouter.chat('openai/gpt-5-chat:online'), //online model for real-time data, else use 'openai/gpt-5-chat'
     messages,
-    maxOutputTokens: 2000,
+    maxOutputTokens: 100, //for dev testing
     temperature: 0.7
   })
 
