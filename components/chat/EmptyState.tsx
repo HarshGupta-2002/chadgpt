@@ -50,7 +50,7 @@ export const EmptyState = memo(function EmptyState({ onSuggestionClick }: EmptyS
               <button
                 key={index}
                 onClick={() => onSuggestionClick(suggestion.prompt)}
-                className="group p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-900/60 hover:border-zinc-300 dark:hover:border-zinc-700/50 transition-all text-left shadow-sm"
+                className="group p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/50 hover:bg-zinc-200 dark:hover:bg-zinc-900/60 hover:border-zinc-300 dark:hover:border-zinc-700/50 transition-all text-left shadow-sm cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className="flex-shrink-0 p-2 rounded-xl bg-emerald-100 dark:bg-zinc-800/50 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-200 dark:group-hover:bg-zinc-700/50 transition-colors">

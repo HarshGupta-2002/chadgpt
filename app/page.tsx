@@ -37,7 +37,7 @@ export default function Home() {
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-center pt-4">
           <Link
             href="/chat"
-            className="w-full sm:w-auto px-8 py-4 bg-zinc-900 text-white dark:bg-white dark:text-black font-semibold rounded-xl hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
+            className="w-full sm:w-auto px-8 py-4 bg-zinc-900 text-white dark:bg-white dark:text-black font-semibold rounded-xl hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl cursor-pointer"
           >
             Start chatting
           </Link>

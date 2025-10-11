@@ -50,7 +50,7 @@ export function ChatInput({
             <button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="absolute right-3 bottom-3 p-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-500 disabled:bg-zinc-300 dark:disabled:bg-zinc-700 disabled:text-zinc-400 dark:disabled:text-zinc-500 disabled:cursor-not-allowed transition-colors"
+              className="absolute right-3 bottom-3 p-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-500 disabled:bg-zinc-300 dark:disabled:bg-zinc-700 disabled:text-zinc-400 dark:disabled:text-zinc-500 disabled:cursor-not-allowed cursor-pointer transition-colors"
               aria-label="Send message"
             >
               <Send className="w-4 h-4" />

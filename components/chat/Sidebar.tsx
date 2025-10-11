@@ -28,7 +28,7 @@ const SidebarContent = memo(function SidebarContent() {
       <div className="px-2 pb-2 flex-shrink-0">
         <button
           onClick={() => window.location.reload()}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-transparent hover:bg-zinc-200 dark:hover:bg-zinc-800/50 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all border border-zinc-200 dark:border-zinc-800/50 hover:border-zinc-300 dark:hover:border-zinc-700/50"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-transparent hover:bg-zinc-200 dark:hover:bg-zinc-800/50 text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all border border-zinc-200 dark:border-zinc-800/50 hover:border-zinc-300 dark:hover:border-zinc-700/50 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span className="text-sm font-medium">New chat</span>
@@ -67,7 +67,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
       {/* Desktop Toggle Button */}
       <button
         onClick={onToggle}
-        className={`hidden md:block fixed top-4 z-50 p-2 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800/50 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all duration-300 ${
+        className={`hidden md:block fixed top-4 z-50 p-2 rounded-lg bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800/50 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all duration-300 cursor-pointer ${
           isOpen ? 'left-60' : 'left-4'
         }`}
         aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
