@@ -5,9 +5,6 @@ const openrouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY!
 });
 
-/**
- * Available OpenRouter models
- */
 export const MODELS = {
   BASE: 'openai/gpt-5-chat',
   ONLINE: 'openai/gpt-5-chat:online',
@@ -15,12 +12,6 @@ export const MODELS = {
 
 export type ModelType = typeof MODELS[keyof typeof MODELS];
 
-/**
- * Streams text responses from OpenRouter
- * 
- * @param messages - Conversation history
- * @param modelType - Model to use (defaults to BASE)
- */
 export async function openRouter(
   messages: CoreMessage[],
   modelType: ModelType = MODELS.BASE

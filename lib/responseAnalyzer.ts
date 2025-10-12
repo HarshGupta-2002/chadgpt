@@ -1,12 +1,4 @@
-/**
- * Response Analyzer Utility
- * 
- * Detects if an AI response indicates lack of real-time information
- */
-
-/**
- * Phrases that indicate the model lacks real-time data
- */
+// Phrases indicating the model lacks real-time data
 const FALLBACK_PHRASES = [
   'as of my knowledge cutoff',
   'my knowledge cutoff',
@@ -27,12 +19,6 @@ const FALLBACK_PHRASES = [
   "i don't have browsing capabilities",
 ] as const;
 
-/**
- * Checks if a response contains phrases indicating lack of real-time data
- * 
- * @param text - The AI response text to analyze
- * @returns true if fallback phrases detected, false otherwise
- */
 export function containsFallbackPhrase(text: string): boolean {
   if (!text || typeof text !== 'string') {
     return false;

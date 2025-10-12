@@ -4,14 +4,10 @@ import { convertToModelMessages, type UIMessage } from 'ai';
 
 export const maxDuration = 30;
 
-/**
- * Creates a UI message stream response from cached text
- * Mimics the AI SDK's streaming format for consistency
- */
+// Creates streaming response from cached text
 function createCachedUIMessageResponse(text: string): Response {
   const encoder = new TextEncoder();
   
-  // Create the message in AI SDK format
   const message = {
     id: crypto.randomUUID(),
     role: 'assistant',
@@ -20,7 +16,6 @@ function createCachedUIMessageResponse(text: string): Response {
 
   const stream = new ReadableStream({
     start(controller) {
-      // Send the complete message
       controller.enqueue(
         encoder.encode(`0:${JSON.stringify(message)}\n`)
       );
@@ -45,19 +40,36 @@ export async function POST(req: Request) {
 
   const modelMessages = convertToModelMessages(messages);
 
-  // First attempt with base model
-  const baseResult = await openRouter(modelMessages, MODELS.BASE);
-  
-  // Collect the full text response to check for fallback phrases
-  const baseText = await baseResult.text;
+  try {
+    // Try base model first
+    const baseResult = await openRouter(modelMessages, MODELS.BASE);
+    const baseText = await baseResult.text;
 
-  // Check if response indicates lack of real-time data
-  if (containsFallbackPhrase(baseText)) {
-    // Retry with online model for real-time information
-    const onlineResult = await openRouter(modelMessages, MODELS.ONLINE);
-    return onlineResult.toUIMessageStreamResponse();
+    // Retry with online model if base lacks real-time data
+    if (containsFallbackPhrase(baseText)) {
+      const onlineResult = await openRouter(
+        modelMessages, 
+        MODELS.ONLINE
+      );
+      return onlineResult.toUIMessageStreamResponse();
+    }
+
+    return createCachedUIMessageResponse(baseText);
+  } catch (error: any) {
+    console.error('OpenRouter API error:', error);
+
+    // Return specific error with proper status code
+    const statusCode = error.statusCode || 500;
+    const message = error.statusCode === 402
+      ? 'Insufficient credits. Add credits at openrouter.ai/settings'
+      : error.message || 'An unexpected error occurred';
+
+    return new Response(
+      JSON.stringify({ error: message }),
+      { 
+        status: statusCode,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
   }
-
-  // Return cached base response in streaming format
-  return createCachedUIMessageResponse(baseText);
 }
