@@ -5,13 +5,32 @@ const openrouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY!
 });
 
-export async function openRouter(messages: CoreMessage[]) {
+/**
+ * Available OpenRouter models
+ */
+export const MODELS = {
+  BASE: 'openai/gpt-5-chat',
+  ONLINE: 'openai/gpt-5-chat:online',
+} as const;
+
+export type ModelType = typeof MODELS[keyof typeof MODELS];
+
+/**
+ * Streams text responses from OpenRouter
+ * 
+ * @param messages - Conversation history
+ * @param modelType - Model to use (defaults to BASE)
+ */
+export async function openRouter(
+  messages: CoreMessage[],
+  modelType: ModelType = MODELS.BASE
+) {
   const result = streamText({
-    model: openrouter.chat('openai/gpt-5-chat:online'), //online model for real-time data, else use 'openai/gpt-5-chat'
+    model: openrouter.chat(modelType),
     messages,
-    maxOutputTokens: 100, //for dev testing
+    maxOutputTokens: 2000,
     temperature: 0.7
-  })
+  });
 
   return result;
 }
