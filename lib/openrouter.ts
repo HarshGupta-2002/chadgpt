@@ -19,7 +19,7 @@ export async function openRouter(
   const result = streamText({
     model: openrouter.chat(modelType),
     messages,
-    maxOutputTokens: 2000,
+    maxOutputTokens: 100,
     temperature: 0.7
   });
 

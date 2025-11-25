@@ -4,33 +4,6 @@ import { convertToModelMessages, type UIMessage } from 'ai';
 
 export const maxDuration = 30;
 
-// Creates streaming response from cached text
-function createCachedUIMessageResponse(text: string): Response {
-  const encoder = new TextEncoder();
-  
-  const message = {
-    id: crypto.randomUUID(),
-    role: 'assistant',
-    parts: [{ type: 'text', text }],
-  };
-
-  const stream = new ReadableStream({
-    start(controller) {
-      controller.enqueue(
-        encoder.encode(`0:${JSON.stringify(message)}\n`)
-      );
-      controller.close();
-    },
-  });
-
-  return new Response(stream, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'X-Vercel-AI-Data-Stream': 'v1',
-    },
-  });
-}
-
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json();
 
@@ -43,7 +16,13 @@ export async function POST(req: Request) {
   try {
     // Try base model first
     const baseResult = await openRouter(modelMessages, MODELS.BASE);
-    const baseText = await baseResult.text;
+    
+    // Collect full text to check for fallback phrases
+    const chunks: string[] = [];
+    for await (const chunk of baseResult.textStream) {
+      chunks.push(chunk);
+    }
+    const baseText = chunks.join('');
 
     // Retry with online model if base lacks real-time data
     if (containsFallbackPhrase(baseText)) {
@@ -54,7 +33,9 @@ export async function POST(req: Request) {
       return onlineResult.toUIMessageStreamResponse();
     }
 
-    return createCachedUIMessageResponse(baseText);
+    // Return base result stream
+    const finalResult = await openRouter(modelMessages, MODELS.BASE);
+    return finalResult.toUIMessageStreamResponse();
   } catch (error: any) {
     console.error('OpenRouter API error:', error);
 
