@@ -28,7 +28,14 @@ export async function openRouter(
     model: openrouter.chat(modelType),
     messages,
     maxOutputTokens,
-    temperature: 0.7
+    temperature: 0.7,
+    // 'minimal' avoids slow/costly reasoning on trivial prompts (e.g. "hi").
+    // https://openrouter.ai/docs/use-cases/reasoning-tokens
+    providerOptions: {
+      openrouter: {
+        reasoning: { effort: 'minimal' },
+      },
+    },
   });
 
   return result;

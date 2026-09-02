@@ -27,15 +27,14 @@ export async function POST(req: Request) {
     // Retry with online model if base lacks real-time data
     if (containsFallbackPhrase(baseText)) {
       const onlineResult = await openRouter(
-        modelMessages, 
+        modelMessages,
         MODELS.ONLINE
       );
       return onlineResult.toUIMessageStreamResponse();
     }
 
-    // Return base result stream
-    const finalResult = await openRouter(modelMessages, MODELS.BASE);
-    return finalResult.toUIMessageStreamResponse();
+    // Reuse the already-streamed result instead of calling the model again.
+    return baseResult.toUIMessageStreamResponse();
   } catch (error: any) {
     console.error('OpenRouter API error:', error);
 
