@@ -15,9 +15,9 @@ export const ChatMessage = memo(function ChatMessage({ message }: ChatMessagePro
       <div className="w-full px-4 py-3 md:px-8">
         <div className="max-w-[48rem] mx-auto flex justify-end">
           <div className="max-w-[80%] md:max-w-[70%]">
-            <div className="px-4 py-3 rounded-2xl rounded-tr-md 
-              bg-zinc-200 dark:bg-zinc-700/90 text-zinc-900 
-              dark:text-zinc-50 shadow-sm">
+            <div className="px-4 py-3 rounded-xl rounded-tr-sm
+              bg-zinc-200 dark:bg-zinc-800 text-zinc-900
+              dark:text-zinc-100">
               <div className="text-[15px] leading-6">
                 {message.parts.map((part, i) => {
                   if (part.type === 'text') {

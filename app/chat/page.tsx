@@ -99,10 +99,12 @@ export default function Chat() {
               {isLoading && (
                 <div className="w-full px-4 py-6 md:px-8">
                   <div className="max-w-[48rem] mx-auto">
-                    <div className="flex items-center gap-2 text-zinc-600 
+                    <div className="flex items-center gap-2 text-zinc-600
                       dark:text-zinc-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span className="text-[15px]">Thinking...</span>
+                      <span className="w-1.5 h-1.5 rounded-full
+                        bg-emerald-500 animate-pulse" />
                     </div>
                   </div>
                 </div>

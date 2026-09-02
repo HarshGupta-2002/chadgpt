@@ -34,12 +34,15 @@ export const EmptyState = memo(function EmptyState({ onSuggestionClick }: EmptyS
       <div className="max-w-3xl w-full space-y-12">
         {/* Header */}
         <div className="text-center space-y-6">
-          <div className="inline-flex items-center justify-center w-14 
-            h-14 rounded-2xl bg-emerald-600 text-white shadow-lg 
-            shadow-emerald-500/20">
-            <Sparkles className="w-7 h-7" />
+          <div className="inline-flex items-center gap-2 px-3 py-1
+            rounded-full border border-zinc-200 dark:border-zinc-800
+            text-[11px] font-mono uppercase tracking-widest
+            text-zinc-500 dark:text-zinc-500">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500
+              animate-pulse" />
+            New session
           </div>
-          <h1 className="text-4xl md:text-5xl font-semibold 
+          <h1 className="text-4xl md:text-5xl font-semibold
             text-zinc-900 dark:text-zinc-100 tracking-tight">
             How can I help you today?
           </h1>
@@ -53,12 +56,11 @@ export const EmptyState = memo(function EmptyState({ onSuggestionClick }: EmptyS
               <button
                 key={index}
                 onClick={() => onSuggestionClick(suggestion.prompt)}
-                className="group p-4 rounded-2xl bg-zinc-100 
-                  dark:bg-zinc-900/40 border border-zinc-200 
-                  dark:border-zinc-800/50 hover:bg-zinc-200 
-                  dark:hover:bg-zinc-900/60 hover:border-zinc-300 
-                  dark:hover:border-zinc-700/50 transition-all text-left 
-                  shadow-sm cursor-pointer"
+                className="group p-4 rounded-xl bg-zinc-50
+                  dark:bg-zinc-900/60 border border-zinc-200
+                  dark:border-zinc-800 hover:border-zinc-300
+                  dark:hover:border-zinc-700 transition-all text-left
+                  cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div className="flex-shrink-0 p-2 rounded-xl 

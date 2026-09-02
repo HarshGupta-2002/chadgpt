@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function Home() {
@@ -9,10 +9,7 @@ export default function Home() {
       <nav className="flex items-center justify-between px-6 py-4 border-b
         border-zinc-200 dark:border-zinc-800/60">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-emerald-600 flex items-center
-            justify-center text-white">
-            <Sparkles className="w-4 h-4" />
-          </div>
+          <img src="/chadgpt-logo.svg" alt="" className="w-7 h-7" />
           <span className="font-semibold tracking-tight">ChadGPT</span>
         </div>
         <div className="flex items-center gap-3">
