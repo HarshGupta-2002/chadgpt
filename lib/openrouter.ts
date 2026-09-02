@@ -1,25 +1,33 @@
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { streamText, type CoreMessage } from 'ai';
+import { streamText, type ModelMessage } from 'ai';
 
 const openrouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY!
 });
 
 export const MODELS = {
-  BASE: 'openai/gpt-5-chat',
-  ONLINE: 'openai/gpt-5-chat:online',
+  BASE: 'openai/gpt-5',
+  ONLINE: 'openai/gpt-5:online',
 } as const;
 
 export type ModelType = typeof MODELS[keyof typeof MODELS];
 
+const configuredMaxOutputTokens = Number.parseInt(
+  process.env.OPENROUTER_MAX_OUTPUT_TOKENS ?? '',
+  10
+);
+const maxOutputTokens = Number.isInteger(configuredMaxOutputTokens) && configuredMaxOutputTokens > 0
+  ? configuredMaxOutputTokens
+  : 1000;
+
 export async function openRouter(
-  messages: CoreMessage[],
+  messages: ModelMessage[],
   modelType: ModelType = MODELS.BASE
 ) {
   const result = streamText({
     model: openrouter.chat(modelType),
     messages,
-    maxOutputTokens: parseInt(process.env.MAX_OUTPUT_TOKENS!),
+    maxOutputTokens,
     temperature: 0.7
   });
 
