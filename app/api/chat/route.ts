@@ -1,5 +1,5 @@
 import { openRouter, MODELS } from '@/lib/openrouter';
-import { containsFallbackPhrase, needsLiveData } from '@/lib/responseAnalyzer';
+import { needsLiveData } from '@/lib/responseAnalyzer';
 import { convertToModelMessages, type UIMessage } from 'ai';
 
 export const maxDuration = 30;
@@ -26,37 +26,11 @@ export async function POST(req: Request) {
   const modelMessages = convertToModelMessages(messages);
 
   try {
-    // Primary trigger: if the user's own query signals recency intent
-    // (e.g. "today", "latest", "score"), skip the base model entirely and
-    // go straight to the online model — the base model rarely admits it
-    // doesn't know, so waiting for it to hedge is unreliable.
-    if (needsLiveData(getLastUserText(messages))) {
-      const onlineResult = await openRouter(modelMessages, MODELS.ONLINE);
-      return onlineResult.toUIMessageStreamResponse();
-    }
-
-    // Otherwise, try the base model first
-    const baseResult = await openRouter(modelMessages, MODELS.BASE);
-
-    // Collect full text to check for fallback phrases
-    const chunks: string[] = [];
-    for await (const chunk of baseResult.textStream) {
-      chunks.push(chunk);
-    }
-    const baseText = chunks.join('');
-
-    // Secondary safety net: retry with online model if base admitted it
-    // lacks real-time data even though the query didn't trip needsLiveData().
-    if (containsFallbackPhrase(baseText)) {
-      const onlineResult = await openRouter(
-        modelMessages,
-        MODELS.ONLINE
-      );
-      return onlineResult.toUIMessageStreamResponse();
-    }
-
-    // Reuse the already-streamed result instead of calling the model again.
-    return baseResult.toUIMessageStreamResponse();
+    // Route to the online model only if the query signals recency intent.
+    // Stream straight through — no upfront buffering, so tokens arrive live.
+    const modelType = needsLiveData(getLastUserText(messages)) ? MODELS.ONLINE : MODELS.BASE;
+    const result = await openRouter(modelMessages, modelType);
+    return result.toUIMessageStreamResponse();
   } catch (error: any) {
     console.error('OpenRouter API error:', error);
 

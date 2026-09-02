@@ -1,40 +1,5 @@
-// Phrases indicating the model lacks real-time data
-const FALLBACK_PHRASES = [
-  'as of my knowledge cutoff',
-  'my knowledge cutoff',
-  'knowledge cutoff',
-  "i don't have real-time information",
-  "i don't have access to real-time",
-  "i cannot access real-time",
-  "i can't provide real-time",
-  'my training data only goes up to',
-  'my training data ends',
-  'my last update was',
-  "i don't have access to current",
-  "i don't have information beyond",
-  'as of my last training',
-  'my training only extends to',
-  "i can't browse the internet",
-  "i cannot browse the internet",
-  "i don't have browsing capabilities",
-] as const;
-
-export function containsFallbackPhrase(text: string): boolean {
-  if (!text || typeof text !== 'string') {
-    return false;
-  }
-
-  const normalizedText = text.toLowerCase();
-
-  return FALLBACK_PHRASES.some(phrase =>
-    normalizedText.includes(phrase)
-  );
-}
-
-// Keyword/phrase signals that a user's query is asking about something that
-// changes over time — the answer can only be correct if it's looked up live.
-// Matched as whole words/phrases against the lowercased query so we don't
-// trip on substrings buried inside unrelated words.
+// Signals that a query needs live/current data. Matched as substrings
+// against the lowercased query.
 const LIVE_DATA_KEYWORDS = [
   'today',
   "today's",
@@ -85,14 +50,8 @@ const YEAR_PATTERN = new RegExp(
   `\\b(${CURRENT_YEAR - 1}|${CURRENT_YEAR}|${CURRENT_YEAR + 1})\\b`
 );
 
-/**
- * Detects recency intent in the user's own query, before the base model is
- * ever called. This is the primary trigger for routing to MODELS.ONLINE:
- * the base model frequently answers time-sensitive questions with a
- * confident but stale guess rather than admitting ignorance, so
- * containsFallbackPhrase() (a response-side safety net) never fires for
- * those cases. Keyword matching on the query catches them upfront instead.
- */
+// Detects recency intent in the query upfront, before any model is called.
+// Sole trigger for routing to MODELS.ONLINE instead of MODELS.BASE.
 export function needsLiveData(query: string): boolean {
   if (!query || typeof query !== 'string') {
     return false;

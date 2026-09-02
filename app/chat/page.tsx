@@ -14,6 +14,14 @@ export default function Chat() {
   
   const isLoading = status === 'submitted' || status === 'streaming';
 
+  // Only show "Thinking..." before visible text arrives, not for the
+  // whole streaming duration.
+  const lastMessage = messages[messages.length - 1];
+  const isAssistantTextVisible =
+    lastMessage?.role === 'assistant' &&
+    lastMessage.parts.some((part) => part.type === 'text' && part.text.length > 0);
+  const showThinkingIndicator = isLoading && !isAssistantTextVisible;
+
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     if (messagesEndRef.current && scrollContainerRef.current) {
@@ -96,7 +104,7 @@ export default function Chat() {
               ))}
               
               {/* Loading Indicator */}
-              {isLoading && (
+              {showThinkingIndicator && (
                 <div className="w-full px-4 py-6 md:px-8">
                   <div className="max-w-[48rem] mx-auto">
                     <div className="flex items-center gap-2 text-zinc-600
